@@ -76,15 +76,15 @@
   environment.systemPackages = with pkgs; [];
 
   environment.sessionVariables = {
-    WLR_NO_HARDWARE_CURSORS = "1";
-    NIXOS_OZONE_WL = "1";
+    #WLR_NO_HARDWARE_CURSORS = "1";
+    #NIXOS_OZONE_WL = "1";
   };
 
   services.greetd = {
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+        command = "${pkgs.greetd.wlgreet}/bin/wlgreet --command scripts/start.sh Hyprland";
         user = "greeter";
       };
     };
