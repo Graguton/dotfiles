@@ -1,11 +1,13 @@
 { config, pkgs, inputs, ... }:
 
 let
-  git_helix = inputs.helix.packages."${pkgs.system}".helix;
-  #git_hyprland = inputs.hyprland.packages."${pkgs.system}".hyprland;
-  git_hyprland = pkgs.hyprland;
+  git_helix = inputs.helix.packages."${pkgs.system}";
+  git_hyprland = inputs.hyprland.packages."${pkgs.system}"; # .hyprland
+  git_anyrun = inputs.anyrun.packages."${pkgs.system}";
 in
 {
+  imports = [ inputs.anyrun.homeManagerModules.default ];
+  
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "ethan";
@@ -28,15 +30,15 @@ in
     eww
     mako
     swww
-    anyrun
 
     alacritty
     zellij
 
-    git_helix
+    git_helix.helix
     bottom
     ripgrep
-
+    
+    gnome-text-editor
     firefox    
 
     # # Adds the 'hello' command to your environment. It prints a friendly
@@ -90,10 +92,38 @@ in
         };
       };
     };
+    
+    anyrun = { enable = true;
+      config = {
+        plugins = [
+          git_anyrun.applications
+          git_anyrun.dictionary
+          git_anyrun.kidex
+          git_anyrun.randr
+          git_anyrun.rink
+          git_anyrun.shell
+          git_anyrun.stdin
+          git_anyrun.symbols
+          git_anyrun.translate
+          git_anyrun.websearch
+        ];
+        
+        x = { fraction = 0.5; };
+        y = { fraction = 0.3; };
+        width = { fraction = 0.3; };
+        hideIcons = false;
+        ignoreExclusiveZones = false;
+        layer = "overlay";
+        hidePluginInfo = false;
+        closeOnClick = false;
+        showResultsImmediately = false;
+        maxEntries = null;
+      };
+    };
   };
   
   wayland.windowManager.hyprland = { enable = true;
-    package = git_hyprland;
+    package = git_hyprland.hyprland;
     xwayland.enable = true;
     systemd = { enable = true;
       variables = ["--all"];
