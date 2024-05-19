@@ -107,8 +107,17 @@ in
           inputs_anyrun.translate
           inputs_anyrun.websearch
         ];
-        
-        extraConfigFiles = ./config/anyrun;
+      };
+
+      extraConfigFiles = {
+        "applications.ron".text = builtins.readFile ./config/anyrun/applications.ron;
+        "dictionary.ron".text = builtins.readFile ./config/anyrun/dictionary.ron;
+        "kidex.ron".text = builtins.readFile ./config/anyrun/kidex.ron;
+        "randr.ron".text = builtins.readFile ./config/anyrun/randr.ron;
+        "shell.ron".text = builtins.readFile ./config/anyrun/shell.ron;
+        "symbols.ron".text = builtins.readFile ./config/anyrun/symbols.ron;
+        "translate.ron".text = builtins.readFile ./config/anyrun/translate.ron;
+        "websearch.ron".text = builtins.readFile ./config/anyrun/websearch.ron;
       };
     };
   };
