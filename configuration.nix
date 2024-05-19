@@ -15,7 +15,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.timeout = 2;
 
-  boot.initrd.luks.devices."luks-7d81beb8-f0ac-451c-9ef9-4519e3e0ccd8".device = "/dev/disk/by-uuid/7d81beb8-f0ac-451c-9ef9-4519e3e0ccd8";
   networking.hostName = "ethan-pc"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 

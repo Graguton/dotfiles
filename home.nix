@@ -1,9 +1,9 @@
 { config, pkgs, inputs, ... }:
 
 let
-  git_helix = inputs.helix.packages."${pkgs.system}";
-  git_hyprland = inputs.hyprland.packages."${pkgs.system}"; # .hyprland
-  git_anyrun = inputs.anyrun.packages."${pkgs.system}";
+  inputs_helix = inputs.helix.packages."${pkgs.system}";
+  inputs_hyprland = inputs.hyprland.packages."${pkgs.system}"; # .hyprland
+  inputs_anyrun = inputs.anyrun.packages."${pkgs.system}";
 in
 {
   imports = [ inputs.anyrun.homeManagerModules.default ];
@@ -25,7 +25,7 @@ in
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    dconf
+    dconf # for hyprland font and themes fix
 
     eww
     mako
@@ -34,7 +34,7 @@ in
     alacritty
     zellij
 
-    git_helix.helix
+    inputs_helix.helix
     bottom
     ripgrep
     
@@ -96,34 +96,25 @@ in
     anyrun = { enable = true;
       config = {
         plugins = [
-          git_anyrun.applications
-          git_anyrun.dictionary
-          git_anyrun.kidex
-          git_anyrun.randr
-          git_anyrun.rink
-          git_anyrun.shell
-          git_anyrun.stdin
-          git_anyrun.symbols
-          git_anyrun.translate
-          git_anyrun.websearch
+          inputs_anyrun.applications
+          inputs_anyrun.dictionary
+          inputs_anyrun.kidex
+          #inputs_anyrun.randr
+          inputs_anyrun.rink
+          inputs_anyrun.shell
+          #inputs_anyrun.stdin
+          inputs_anyrun.symbols
+          inputs_anyrun.translate
+          inputs_anyrun.websearch
         ];
         
-        x = { fraction = 0.5; };
-        y = { fraction = 0.3; };
-        width = { fraction = 0.3; };
-        hideIcons = false;
-        ignoreExclusiveZones = false;
-        layer = "overlay";
-        hidePluginInfo = false;
-        closeOnClick = false;
-        showResultsImmediately = false;
-        maxEntries = null;
+        extraConfigFiles = ./config/anyrun;
       };
     };
   };
   
   wayland.windowManager.hyprland = { enable = true;
-    package = git_hyprland.hyprland;
+    package = inputs_hyprland.hyprland;
     xwayland.enable = true;
     systemd = { enable = true;
       variables = ["--all"];
